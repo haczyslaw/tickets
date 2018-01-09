@@ -1,0 +1,4 @@
+fetch_ticket_job:
+  cron: "57 23 * * *"
+  class: "FetchTicketWorker"
+  queue: fetch_ticket_worker
