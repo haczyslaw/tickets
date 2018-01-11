@@ -1,26 +1,27 @@
 module ZenDeskService
-  ENDPOINT = Rails.config_for(:zendesk)['endpoint']
-  BASIC_AUTH = Rails.config_for(:zendesk)['basic_auth']
+  ENDPOINT = Rails.application.config_for(:zendesk)['endpoint']
+  BASIC_AUTH = Rails.application.config_for(:zendesk)['basic_auth']
   PERMITTED_ATTRIBUTES = %w(title body)
 
   module_function
 
   def fetch_tickets
-    uri = URI("#{ENDPOINT}/tickets")
+    uri = URI("http://#{ENDPOINT}/tickets")
 
     while uri
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new uri
 
         response = http.request request
-        if response.status < 200 || response.status >= 300
+        if response.code.to_i < 200 || response.code.to_i >= 300
           uri = nil
-          return
+          return false
         end
 
-        update_tickets(response.body['tickets']) if response.body['tickets']
-        if response.body['next_page']
-          uri = URI(response.body['next_page'])
+        response_hash = JSON.parse(response.body)
+        update_tickets(response_hash['tickets']) if response_hash['tickets']
+        if response_hash['next_page']
+          uri = URI(response_hash['next_page'])
         else
           uri = nil
         end
@@ -32,21 +33,21 @@ module ZenDeskService
   end
 
   def create_tickets(params)
-    uri = URI("#{ENDPOINT}/tickets")
+    uri = URI("http://#{ENDPOINT}/tickets")
 
     request = Net::HTTP::Post.new(uri)
-    request.basic_auth *BASIC_AUTH
+    request.basic_auth(*BASIC_AUTH)
     request.set_form_data(params)
 
     Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
       response = http.request request
-      response.status < 200 || response.status >= 300
+      response.code.to_i >= 200 && response.code.to_i < 300
     end
   end
 
   private
 
-  def update_tickets(tickets)
+  def self.update_tickets(tickets)
     tickets.each do |item|
       ticket = Ticket.find_by(external_id: item['id'])
 
@@ -54,7 +55,8 @@ module ZenDeskService
         ticket.update_attributes(item.slice(*PERMITTED_ATTRIBUTES))
       else
         item['external_id'] = item['id']
-        Ticket.create(item.delete['id'])
+        item.delete('id')
+        Ticket.create(item)
       end
     end
   end

@@ -1,0 +1,17 @@
+defaults: &defaults
+  endpoint: zendesk.com
+  basic_auth:
+    - test
+    - test
+
+production:
+  <<: *defaults
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults

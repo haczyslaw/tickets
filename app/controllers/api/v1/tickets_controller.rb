@@ -6,7 +6,9 @@ class Api::V1::TicketsController < ApplicationController
   end
 
   def create
-    ZenDeskService.create_ticket(ticket_params)
+    created = ZenDeskService.create_ticket(ticket_params)
+    FetchTicketsWorker.perform_async if created
+    render json: { created: created }
   end
 
   private

@@ -35,10 +35,16 @@ gem 'sidekiq-cron', '~> 0.6.3'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+group :test do
+  gem 'webmock'
+  gem 'shoulda-matchers', '~> 3.1'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'pry'
 end
 
 group :development do

@@ -1,4 +1,4 @@
-class FetchTicketWorker
+class FetchTicketsWorker
   include Sidekiq::Worker
 
   def perform
