@@ -1,4 +1,6 @@
 class Api::V1::TicketsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     @tickets = Ticket.all_with_cache_json
 
