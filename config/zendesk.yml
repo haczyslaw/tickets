@@ -1,17 +1,16 @@
-defaults: &defaults
-  endpoint: zendesk.com
-  basic_auth:
-    - test
-    - test
-
-production:
-  <<: *defaults
-
 development:
-  <<: *defaults
+  endpoint: 'pursangstudio.zendesk.com/api/v2'
+  basic_auth:
+    - 'haczyslaw@gmail.com/token'
+    - 'xxx'
 
 test:
-  <<: *defaults
+  endpoint: 'pursangstudio.zendesk.com/api/v2'
+  basic_auth:
+    - 'haczyslaw@gmail.com/token'
+    - 'xxx'
 
-staging:
-  <<: *defaults
+production:
+  endpoint: 'pursangstudio.zendesk.com/api/v2'
+  basic_auth:
+    - 'haczyslaw@gmail.com/token'
