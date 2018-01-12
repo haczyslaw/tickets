@@ -1,6 +1,6 @@
 module ZenDeskService
   ENDPOINT = Rails.application.config_for(:zendesk)['endpoint']
-  BASIC_AUTH = Rails.application.config_for(:zendesk)['basic_auth']
+  BASIC_AUTH = Rails.application.config_for(:zendesk)['basic_auth'] + Array(ENV['ZENDESK_TOKEN'])
   PERMITTED_ATTRIBUTES = %w(subject description)
 
   module_function

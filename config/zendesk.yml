@@ -2,13 +2,11 @@ development:
   endpoint: 'pursangstudio.zendesk.com/api/v2'
   basic_auth:
     - 'haczyslaw@gmail.com/token'
-    - 'xxx'
 
 test:
   endpoint: 'pursangstudio.zendesk.com/api/v2'
   basic_auth:
     - 'haczyslaw@gmail.com/token'
-    - 'xxx'
 
 production:
   endpoint: 'pursangstudio.zendesk.com/api/v2'
