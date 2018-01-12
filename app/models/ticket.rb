@@ -1,6 +1,6 @@
 class Ticket < ActiveRecord::Base
-  validates :title, presence: true
-  validates :body, presence: true
+  validates :subject, presence: true
+  validates :description, presence: true
   validates :external_id, presence: true
 
   after_update :remove_cache
@@ -11,7 +11,7 @@ class Ticket < ActiveRecord::Base
 
   def self.all_with_cache_json
     Rails.cache.fetch('api_tickets') do
-      Ticket.find_each.as_json(only: %w(title body external_id))
+      Ticket.find_each.as_json(only: %w(subject description external_id))
     end
   end
 

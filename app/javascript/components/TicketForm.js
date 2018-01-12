@@ -4,38 +4,44 @@ import PropTypes from "prop-types"
 class TicketForm extends React.Component {
   constructor() {
     super();
-    this.state = { title: '', body: '' };
+    this.state = { subject: '', description: '' };
   }
 
   handleSubmit(e) {
     if ((e.charCode == 13) || (e.keyCode == 13)) {
-      if ((this.state.title !== '') && (this.state.body !== '')) {
-        this.props.createTicket({ title: this.state.title, body: this.state.body });
+      if ((this.state.subject !== '') && (this.state.description !== '')) {
+        this.props.createTicket({ subject: this.state.subject, description: this.state.description });
       }
-      this.setState({ title: '', body: '' });
+      this.setState({ subject: '', description: '' });
     }
   }
 
   handleChange(e) {
-    if (e.target.dataset.typeOf === 'title') this.setState({ title: e.target.value });
-    if (e.target.dataset.typeOf === 'body') this.setState({ body:  e.target.value });
+    if (e.target.dataset.typeOf === 'subject') this.setState({ subject: e.target.value });
+    if (e.target.dataset.typeOf === 'description') this.setState({ description:  e.target.value });
   }
 
   render () {
     return (
       <div>
-        <label> Title </label>
-        <input value={this.state.title} data-type-of='title' onKeyPress={this.handleSubmit.bind(this)} onChange={this.handleChange.bind(this)} />
-        <label> Body </label>
-        <input value={this.state.body} data-type-of='body' onKeyPress={this.handleSubmit.bind(this)} onChange={this.handleChange.bind(this)} />
+        <div>
+        <label> Subject </label>
+        <input value={this.state.subject} data-type-of='subject' onKeyPress={this.handleSubmit.bind(this)} onChange={this.handleChange.bind(this)} />
+        </div>
+        <br />
+        <div>
+          <label> Description </label>
+          <textarea value={this.state.description} data-type-of='description' onKeyPress={this.handleSubmit.bind(this)} onChange={this.handleChange.bind(this)}>
+          </textarea>
+        </div>
       </div>
     );
   }
 }
 
 TicketForm.propTypes = {
-  title: PropTypes.string,
-  body: PropTypes.string,
+  subject: PropTypes.string,
+  description: PropTypes.string,
   createTicket: PropTypes.func
 };
 

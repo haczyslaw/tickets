@@ -5,16 +5,16 @@ class TicketItem extends React.Component {
   render () {
     return (
       <div>
-        <div>Title: {this.props.title}</div>
-        <div>Body: {this.props.body}</div>
+        <div>Subject: {this.props.subject}</div>
+        <div>Description: {this.props.description}</div>
       </div>
     );
   }
 }
 
 TicketItem.propTypes = {
-  title: PropTypes.string,
-  body: PropTypes.string
+  subject: PropTypes.string,
+  description: PropTypes.string
 };
 
 export default TicketItem

@@ -32,7 +32,7 @@ class Layout extends React.Component {
 
   render () {
     if (!this.state) this.state = { tickets: [] };
-    const Tickets = this.state.tickets.map((ticket, i) => <TicketItem key={i} title={ticket.title} body={ticket.body}/>);
+    const Tickets = this.state.tickets.map((ticket, i) => <TicketItem key={i} subject={ticket.subject} description={ticket.description}/>);
 
     return (
       <div>
